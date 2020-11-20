@@ -15,7 +15,7 @@ export default {
     return {
       info: {
         isshow: false,
-        title: "添加规格",
+        title: "添加商品",
       },
     };
   },
@@ -31,19 +31,19 @@ export default {
     willAdd() {
       this.info = {
         isshow: true,
-        title: "添加规格",
+        title: "添加商品",
       };
     },
 
     //父组件收到编辑
-    edit(id){
+    edit(id) {
       // 受限让弹框先出来
       this.info = {
-        isshow:true,
-        title:"编辑规格"
-      }
-      this.$refs.form.getOne(id)
-    }
+        isshow: true,
+        title: "编辑商品",
+      };
+      this.$refs.form.getOne(id);
+    },
   },
   mounted() {},
 };

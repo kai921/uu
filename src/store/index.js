@@ -8,6 +8,10 @@ import order from "./modules/order"
 import cate from "./modules/cate"
 // 引入specs
 import specs from "./modules/specs"
+import goods from "./modules/goods"
+import vip from "./modules/vip"
+import banner from "./modules/banner"
+import seckill from "./modules/seckill"
 export default new Vuex.Store({
     state,
     mutations,
@@ -17,6 +21,10 @@ export default new Vuex.Store({
     modules: {
         order,
         cate,
-        specs
+        specs,
+        goods,
+        vip,
+        banner,
+        seckill
     }
 })

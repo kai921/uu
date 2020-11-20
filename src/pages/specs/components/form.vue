@@ -1,16 +1,15 @@
 <template>
   <div>
-    <el-dialog :title="info.title" :visible.sync="info.isshow">
+    <el-dialog :title="info.title" :visible.sync="info.isshow" @closed="closed">
       <el-form :model="user">
         <el-form-item label="规格名称" label-width="120px">
           <el-input v-model="user.specsname" autocomplete="off"></el-input>
         </el-form-item>
-
         <el-form-item label="规格属性" label-width="120px" v-for="(item,index) in attrArr" :key="index">
           <div class="line">
             <el-input v-model="item.value" autocomplete="off"></el-input>
             <el-button type="primary" v-if="index===0" @click="addAttr">添加规格属性</el-button>
-            <el-button type="danger" v-else @click="delAttr(index)">删除按钮</el-button>
+            <el-button type="danger" v-else @click="delAttr(index)">删除</el-button>
           </div>
         </el-form-item>
 
@@ -28,12 +27,13 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { successAlert } from "../../../utils/alert";
 import {
   reqspecsAdd,
   reqspecsDetail,
   reqspecsUpdate,
+  reqspecsDel,
 } from "../../../utils/http";
+import { successAlert } from "../../../utils/alert";
 export default {
   props: ["info"],
   data() {
@@ -43,7 +43,7 @@ export default {
         attrs: "",
         status: 1,
       },
-      // 属性值
+      //属性值
       attrArr: [{ value: "" }],
     };
   },
@@ -58,65 +58,50 @@ export default {
     cancel() {
       this.info.isshow = false;
     },
-    // 新增一条规格属性
+    //新增规格属性
     addAttr() {
       this.attrArr.push({
         value: "",
       });
     },
-    // 删除一条规格属性 用splice（）
+    //删除规格属性
     delAttr(index) {
       this.attrArr.splice(index, 1);
     },
+    //清空
     empty() {
       this.user = {
         specsname: "",
         attrs: "",
         status: 1,
       };
-      // 属性值
+      //属性值
       this.attrArr = [{ value: "" }];
     },
-    // 点击添加
+    //添加
     add() {
-      // console.log(this.user);
-      // attrs: ""
-      // catename: "32"
-      // specsname: ""
-      // status: 1
-      // console.log(this.attrArr);
-      // value: "wer"
-      // 这个的user的atters等于这个的自定义空数组的每一条value值 map循环遍历 输出一个新的数组
       this.user.attrs = JSON.stringify(this.attrArr.map((item) => item.value));
-
-      console.log(this.user);
       reqspecsAdd(this.user).then((res) => {
         if (res.data.code === 200) {
-          // 添加弹框
           successAlert("添加成功");
-          // 弹框消失
           this.cancel();
-          // 数据清空
           this.empty();
-          // 刷新list
+          //刷新list
           this.reqList();
-          this.reqCount()
+          this.reqCount();
         }
       });
     },
-
-    // 获取详情
+    //详情
     getOne(id) {
       reqspecsDetail(id).then((res) => {
         this.user = res.data.list[0];
-        this.attrArr = JSON.parse(this.user.attrs).map((item) => {
-          return {
-            value: item,
-          };
-        });
+        //  '["s","M"]'-->[{value:"s"},{value:"M"}]
+        this.attrArr = JSON.parse(this.user.attrs).map((item) => ({
+          value: item,
+        }));
       });
     },
-
     //更新
     update() {
       this.user.attrs = JSON.stringify(this.attrArr.map((item) => item.value));

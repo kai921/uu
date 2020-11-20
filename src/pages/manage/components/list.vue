@@ -31,19 +31,19 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { reqUserDel } from "../../../utils/http";
-import { successAlert } from "../../../utils/alert";
+import { successAlert, errorAlert } from "../../../utils/alert";
 export default {
   // 22.接收list
   props: ["list"],
   computed: {
-    ...mapGetters({})
+    ...mapGetters({}),
   },
   methods: {
     ...mapActions({}),
     // 27 删除
     del(uid) {
       //删除的请求
-      reqUserDel(uid).then(res => {
+      reqUserDel(uid).then((res) => {
         if (res.data.code == 200) {
           //成功的弹框
           successAlert(res.data.msg);
@@ -55,9 +55,9 @@ export default {
     //34.编辑
     edit(uid) {
       this.$emit("edit", uid);
-    }
+    },
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 <style scoped>

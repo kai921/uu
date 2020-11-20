@@ -4,20 +4,26 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-//引入css 默认样式
-import "./assets/css/reset.css"
-
-//引入公共组件
-import "./components"
-
-// 过滤器
-import "./filters"
 Vue.config.productionTip = false
 
-// 仓库
+
+// 1.reset.css
+import "./assets/css/reset.css"
+
+// 2.pages
+
+// 3.引入公共组件
+import "./components"
+
+// 4.数据交互 utils/http.js
+
+// 5.过滤器
+import "./filters"
+
+// 6.仓库
 import store from "./store"
 
-// UI 
+// 7.UI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
